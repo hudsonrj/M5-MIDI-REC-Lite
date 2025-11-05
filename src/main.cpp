@@ -16,10 +16,10 @@
 #define SM_MIC_MODE 6
 #define SM_NOTREADY 9
 
-#define CONFIG_I2S_BCK_PIN 19
+#define CONFIG_I2S_BCK_PIN 22
 #define CONFIG_I2S_LRCK_PIN 33
 #define CONFIG_I2S_DATA_PIN 22
-#define CONFIG_I2S_DATA_IN_PIN 23
+#define CONFIG_I2S_DATA_IN_PIN 19
 #define SPAKER_I2S_NUMBER I2S_NUM_0
 
 bool is_active = false;
