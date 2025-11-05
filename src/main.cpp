@@ -3,6 +3,7 @@
 #include "driver/adc.h"
 #include "BluetoothA2DPSource.h"
 #include "driver/i2s.h"
+#include "esp_gap_bt_api.h"
 
 #define NOTE_MAX 4000
 #define REC_PLAY_LATENCY 65000
@@ -217,6 +218,7 @@ void setup()
   i2s_set_clk(SPAKER_I2S_NUMBER, 44100, I2S_BITS_PER_SAMPLE_16BIT, I2S_CHANNEL_STEREO);
 
   BLEMidiServer.begin("M5 MIDI REC Lite");
+  esp_bt_gap_set_scan_mode(ESP_BT_CONNECTABLE, ESP_BT_GENERAL_DISCOVERABLE);
   BLEMidiServer.setOnConnectCallback(onConnected);
   BLEMidiServer.setOnDisconnectCallback(onDisconnected);
   BLEMidiServer.setNoteOnCallback(onNoteOn);
@@ -237,12 +239,12 @@ void loop()
       if (s_mode != SM_MIC_MODE) {
         s_mode = SM_MIC_MODE;
         M5.dis.drawpix(0, dispColor(0, 255, 255));
-        a2dp_source.start("AtomEchoMic", get_audio_data);
-        BLEMidiServer.stop();
+        a2dp_source.start_raw("AtomEchoMic", get_audio_data);
+        BLEMidiServer.end();
       } else {
         s_mode = SM_REC_STANDBY;
         M5.dis.drawpix(0, dispColor(0, 0, 255));
-        a2dp_source.stop();
+        a2dp_source.end(true);
         BLEMidiServer.begin("M5 MIDI REC Lite");
       }
   }
