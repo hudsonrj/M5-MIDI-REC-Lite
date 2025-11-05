@@ -219,6 +219,7 @@ void setup()
 
   BLEMidiServer.begin("M5 MIDI REC Lite");
   esp_bt_gap_set_scan_mode(ESP_BT_CONNECTABLE, ESP_BT_GENERAL_DISCOVERABLE);
+  delay(1000);
   BLEMidiServer.setOnConnectCallback(onConnected);
   BLEMidiServer.setOnDisconnectCallback(onDisconnected);
   BLEMidiServer.setNoteOnCallback(onNoteOn);
