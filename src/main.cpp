@@ -218,8 +218,6 @@ void setup()
   i2s_set_clk(SPAKER_I2S_NUMBER, 44100, I2S_BITS_PER_SAMPLE_16BIT, I2S_CHANNEL_STEREO);
 
   BLEMidiServer.begin("M5 MIDI REC Lite");
-  esp_bt_gap_set_scan_mode(ESP_BT_CONNECTABLE, ESP_BT_GENERAL_DISCOVERABLE);
-  delay(1000);
   BLEMidiServer.setOnConnectCallback(onConnected);
   BLEMidiServer.setOnDisconnectCallback(onDisconnected);
   BLEMidiServer.setNoteOnCallback(onNoteOn);
@@ -240,6 +238,7 @@ void loop()
       if (s_mode != SM_MIC_MODE) {
         s_mode = SM_MIC_MODE;
         M5.dis.drawpix(0, dispColor(0, 255, 255));
+        a2dp_source.set_discoverability(ESP_BT_GENERAL_DISCOVERABLE);
         a2dp_source.start_raw("AtomEchoMic", get_audio_data);
         BLEMidiServer.end();
       } else {
